@@ -62,6 +62,7 @@ export class HomePage {
 
 public exibirMochila(): void{
   this.mostrarMochila = !this.mostrarMochila;
+  this.organizarMochila();
 }
 
   public botao(): void{
@@ -100,14 +101,33 @@ public exibirMochila(): void{
 			alert.present();
 		}
 
-		//----------função para guardar os itens dropado
-
 		setTimeout(() => this.vidaAtual = this.vidaMax, 500);
 		setTimeout(() => this.vidaRestante = "100", 500);
 	}
 
+public lista2:Array<ItensDrop> = new Array<ItensDrop>();
   public organizarMochila():void{
-    this.mochila.forEach;
+    this.lista2 = new Array<ItensDrop>();
+    function somar(obj) {
+      var i:number;
+      i++;
+        if(obj.nome === this.lista2.get[i].nome){
+          this.itensDrop = new ItensDrop;
+          this.itensDrop.nome = obj.nome;
+          this.itensDrop.quantidade = this.lista2.get[i].quantidade+1;
+          this.lista2.push(this.itensDrop);
+        } else{
+          this.itensDrop = new ItensDrop;
+          this.itensDrop.nome = obj.nome;
+          this.itensDrop.quantidade = this.lista2.get[i].quantidade+1;
+          this.lista2.push(this.itensDrop);
+        }
+    }
+
+    this.mochila.forEach(somar);
+
+    console.log(this.lista2);
+
   }
 
 	public adicionandoLista(){
