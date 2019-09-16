@@ -42,7 +42,7 @@
         </div>
         
         <div id="golpe" *ngIf="golpe == true" class="golpe">
-          <img src="https://toppng.com/public/uploads/preview/yellow-comic-book-pow-11550243677jp8xlhfc8a.png" width="25px" height="25px" />
+          <img src="{{pow}}" width="25px" height="25px" />
         </div>
 
         <button ion-button (click)="botao()" *ngIf="!itens == true">Mostrar Drops</button>
