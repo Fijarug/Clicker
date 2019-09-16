@@ -55,7 +55,8 @@
           <img src="{{pow}}" width="25px" height="25px" />
         </div>
 
-<button ion-button (click)="exibirMochila()">Mostrar mochila</button>
+<button ion-button (click)="exibirMochila()" *ngIf="!mostrarMochila == true">Mostrar mochila</button>
+<button ion-button (click)="exibirMochila()" *ngIf="!mostrarMochila == false">Esconder mochila</button>
 
         <button ion-button (click)="botao()" *ngIf="!itens == true">Mostrar Drops</button>
         <button ion-button (click)="botao()" *ngIf="!itens == false">Esconder Drops</button>
