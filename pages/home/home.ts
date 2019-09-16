@@ -11,11 +11,13 @@ export class HomePage {
   private dropAgora:string;
   public golpeRandom:number;
 	public health:number;
+  public forca:number;
 	public vidaAtual:number;
 	public vidaRes:number;
 	public vidaRestante:string;
 	public golpe:boolean;
 	public itens:boolean;
+  private mostrarMochila:boolean;
 	public chanceDropar:number;
 	public porcentagemDrop:number;
 	public mochila:Array<ItensDrop> = new Array<ItensDrop>();
@@ -33,15 +35,17 @@ export class HomePage {
     this.adicionandoLista();
 		this.vidaAtual = this.vidaMax;
 		this.vidaRestante = "100";
+    this.forca = 100;
   }
 
 	public baterNoMonstro(): void{
+    this.golpeRandom = Math.floor(Math.random() * (4-1) + 1);
 		this.golpe = true;
     if (this.vidaAtual <= 0 ){
       this.vidaAtual = 0;
       this.dropDeItem();
     } else {
-      this.vidaAtual -= 10;
+      this.vidaAtual -= this.forca;
  		};
  		if (this.vidaAtual <= 0 ){
       this.vidaAtual = 0;
@@ -50,6 +54,10 @@ export class HomePage {
     setTimeout(() => this.aparecerGolpe(), 200);
 		setTimeout(() => this.gerarDano(this.vidaAtual, this.vidaMax), 200);
   	}
+
+public exibirMochila(): void{
+  this.mostrarMochila = !this.mostrarMochila;
+}
 
   public botao(): void{
 		this.itens = !this.itens;
@@ -91,7 +99,6 @@ export class HomePage {
 
 		setTimeout(() => this.vidaAtual = this.vidaMax, 500);
 		setTimeout(() => this.vidaRestante = "100", 500);
-		this.mochila = new Array<ItensDrop>();
 	}
 
 	public adicionandoLista(){

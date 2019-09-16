@@ -55,14 +55,26 @@
           <img src="{{pow}}" width="25px" height="25px" />
         </div>
 
+<button ion-button (click)="exibirMochila()">Mostrar mochila</button>
+
         <button ion-button (click)="botao()" *ngIf="!itens == true">Mostrar Drops</button>
         <button ion-button (click)="botao()" *ngIf="!itens == false">Esconder Drops</button>
       </ion-col>
     </ion-row>
 
-    <ion-row style="margin-top: 80%" id="itens" *ngIf="itens == true">
+    <ion-row style="margin-top: 60%">
       <ion-col col-12>
-        <ion-list>
+        <ion-list id="mochila" *ngIf="mostrarMochila == mostrarMochila">
+          <ion-item *ngFor = "let item of mochila">
+            <ion-thumbnail item-start>
+              <img id="monster" alt="Coroa de Faraó" src="{{ item.imagem }}"/>
+            </ion-thumbnail>
+            <h5>{{ item.nome }}</h5>
+            <label>Drop: {{ item.chanceDrop }} %</label>
+          </ion-item>
+        </ion-list>
+
+        <ion-list id="itens" *ngIf="itens == true">
           <ion-item *ngFor = "let item of lista">
             <ion-thumbnail item-start>
               <img id="monster" alt="Coroa de Faraó" src="{{ item.imagem }}"/>
