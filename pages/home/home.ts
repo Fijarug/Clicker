@@ -8,6 +8,8 @@ import { AlertController } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  private dropAgora:string;
+  public golpeRandom:number;
 	public health:number;
 	public vidaAtual:number;
 	public vidaRes:number;
@@ -39,7 +41,7 @@ export class HomePage {
       this.vidaAtual = 0;
       this.dropDeItem();
     } else {
-      this.vidaAtual -= 100;
+      this.vidaAtual -= 10;
  		};
  		if (this.vidaAtual <= 0 ){
       this.vidaAtual = 0;
@@ -67,21 +69,19 @@ export class HomePage {
 	}
 
 	public dropDeItem(){
+  this.dropAgora = "";
 		for (var i = 0; i < this.lista.length; i++) {
 			this.numeroRandom(0,100)
 			if (this.lista[i].chanceDrop >= this.chanceDropar){
-				this.mochila[i] = this.lista[i];
+				this.mochila.push(this.lista[i]);
+        this.dropAgora += this.lista[i].nome + ", ";
 			}
 		}
 
-		var names = this.mochila.map(function(item) {
-		  return item['nome'];
-		});
-
-		if (this.mochila.length != 0) {
+		if (this.dropAgora) {
 			let alert = this.alertCtrl.create({
 			    title: 'Drop',
-				subTitle: "Dropou " + names,
+				subTitle: "Dropou " + this.dropAgora.substr(0, this.dropAgora.length-2),
 				buttons: ['Okay']
 			});
 			alert.present();
@@ -99,7 +99,7 @@ export class HomePage {
 		this.itensDrop.id = 1;
 		this.itensDrop.nome = "Coroa de Faraó";
 		this.itensDrop.chanceDrop = 30;
-    this.itensDrop.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/coroaFa.png?raw=true";
+    this.itensDrop.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/coroaFarao.png?raw=true";
     this.lista.push(this.itensDrop);
     this.itensDrop = new ItensDrop;
 		this.itensDrop.id = 2;

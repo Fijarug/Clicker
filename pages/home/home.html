@@ -13,11 +13,21 @@
     left: 0;
     z-index: 2;
   }
-  .golpe{
+  .divGolpe{
     position: absolute;
-    left: 60%;
-    top: 30%;
     z-index: 3;
+  }
+  .golpe1{
+    left: 55%;
+    top: 30%;
+  }
+  .golpe2{
+    left: 45%;
+    top: 20%;
+  }
+  .golpe3{
+    left: 35%;
+    top: 25%;
   }
   .bg_egito{
     background-image: url("http://images.all-free-download.com/images/graphiclarge/creative_egypt_pyramids_background_vector_graphics_544421.jpg") !important;
@@ -41,7 +51,7 @@
           <img src="{{monstro }}"/>
         </div>
         
-        <div id="golpe" *ngIf="golpe == true" class="golpe">
+        <div id="golpe" *ngIf="golpe == true" class="divGolpe golpe{{golpeRandom}}">
           <img src="{{pow}}" width="25px" height="25px" />
         </div>
 
