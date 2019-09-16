@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ItensDrop } from '../entidade/ItensDrop';
 import { AlertController } from 'ionic-angular';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'groupBy',
+})
 
 @Component({
   selector: 'page-home',
@@ -100,6 +105,10 @@ public exibirMochila(): void{
 		setTimeout(() => this.vidaAtual = this.vidaMax, 500);
 		setTimeout(() => this.vidaRestante = "100", 500);
 	}
+
+  public organizarMochila():void{
+    this.mochila.forEach;
+  }
 
 	public adicionandoLista(){
     this.itensDrop = new ItensDrop;
