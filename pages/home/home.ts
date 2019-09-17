@@ -87,8 +87,19 @@ public exibirMochila(): void{
 		for (var i = 0; i < this.lista.length; i++) {
 			this.numeroRandom(0,100)
 			if (this.lista[i].chanceDrop >= this.chanceDropar){
-				this.mochila.push(this.lista[i]);
-        this.dropAgora += this.lista[i].nome + ", ";
+        if(!this.mochila.includes(this.lista[i])){
+          this.lista[i].quantidade = 1;
+          this.mochila.push(this.lista[i]);
+          this.dropAgora += this.lista[i].nome + ", ";
+        } else {
+          for (var x = 0; x < this.lista.length; x++) {
+            if(this.lista[i] === this.mochila[x]){
+              this.mochila[x].quantidade = this.mochila[x].quantidade + 1
+              this.dropAgora += this.lista[i].nome + ", ";
+            }
+          }
+        }
+				
 			}
 		}
 
