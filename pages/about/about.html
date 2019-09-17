@@ -1,11 +1,23 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Mochila
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-row>
+      <ion-col col-12>
+        <ion-list id="mochila">
+          <ion-item *ngFor = "let item of mochila">
+            <ion-thumbnail item-start>
+              <img id="monster" src="{{ item.imagem }}"/>
+            </ion-thumbnail>
+            <h5>{{ item.nome }}</h5>
+            <label>Quantidade: {{ item.quantidade }}</label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+  </ion-row>
 </ion-content>

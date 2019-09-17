@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { ItensDrop } from '../entidade/ItensDrop';
+import { NavController, NavParams } from 'ionic-angular';
 
 @Component({
   selector: 'page-about',
@@ -7,8 +8,10 @@ import { NavController } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController) {
+  public mochila:Array<ItensDrop> = new Array<ItensDrop>();
 
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.mochila = navParams.get('mochila');
   }
 
 }

@@ -2,11 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ItensDrop } from '../entidade/ItensDrop';
 import { AlertController } from 'ionic-angular';
-import { Pipe, PipeTransform } from '@angular/core';
-
-@Pipe({
-  name: 'groupBy',
-})
+import { AboutPage } from '../about/about'
 
 @Component({
   selector: 'page-home',
@@ -61,8 +57,11 @@ export class HomePage {
   	}
 
 public exibirMochila(): void{
-  this.mostrarMochila = !this.mostrarMochila;
-  this.organizarMochila();
+  //this.mostrarMochila = !this.mostrarMochila;
+  
+  this.navCtrl.push(AboutPage, {
+  mochila: this.mochila
+ });
 }
 
   public botao(): void{

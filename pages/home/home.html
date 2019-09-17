@@ -68,7 +68,7 @@
         <ion-list id="mochila" *ngIf="mostrarMochila == true">
           <ion-item *ngFor = "let item of mochila">
             <ion-thumbnail item-start>
-              <img id="monster" alt="Coroa de Faraó" src="{{ item.imagem }}"/>
+              <img id="monster" src="{{ item.imagem }}"/>
             </ion-thumbnail>
             <h5>{{ item.nome }}</h5>
             <label>Quantidade: {{ item.quantidade }}</label>
@@ -78,7 +78,7 @@
         <ion-list id="itens" *ngIf="itens == true">
           <ion-item *ngFor = "let item of lista">
             <ion-thumbnail item-start>
-              <img id="monster" alt="Coroa de Faraó" src="{{ item.imagem }}"/>
+              <img id="monster" src="{{ item.imagem }}"/>
             </ion-thumbnail>
             <h5>{{ item.nome }}</h5>
             <label>Drop: {{ item.chanceDrop }} %</label>
