@@ -8,6 +8,8 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -29,7 +31,8 @@ import { TabsPage } from '../pages/tabs/tabs';
     TabsPage
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    NativeAudio
   ]
 })
 export class AppModule {}

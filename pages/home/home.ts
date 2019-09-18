@@ -5,6 +5,8 @@ import { Monstro } from '../entidade/Monstro';
 import { AlertController } from 'ionic-angular';
 import { AboutPage } from '../about/about'
 
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -28,7 +30,17 @@ export class HomePage {
 
   public levelMonstro:number = 0;
 
-	constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
+	constructor(public navCtrl: NavController, private alertCtrl: AlertController, private nativeAudio: NativeAudio) {
+
+    this.nativeAudio.preloadSimple('uniqueId1', 'path/to/file.mp3');
+    this.nativeAudio.preloadComplex('uniqueId2', 'path/to/file2.mp3', 1, 1, 0);
+    this.nativeAudio.play('uniqueId1');
+    // can optionally pass a callback to be called when the file is done playing
+    this.nativeAudio.play('uniqueId1', () => console.log('uniqueId1 is done playing'));
+    this.nativeAudio.loop('uniqueId2');
+    this.nativeAudio.setVolumeForComplexAsset('uniqueId2', 0.6);
+    this.nativeAudio.stop('uniqueId1');
+    this.nativeAudio.unload('uniqueId1');
 
 	}
 
@@ -156,4 +168,5 @@ public exibirMochila(): void{
   }
 
 public pow:string = "https://github.com/Fijarug/Clicker/blob/master/src/images/golpe.png?raw=true";
+
 }
