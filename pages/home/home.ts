@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ItensDrop } from '../entidade/ItensDrop';
+import { Monstro } from '../entidade/Monstro';
 import { AlertController } from 'ionic-angular';
 import { AboutPage } from '../about/about'
 
@@ -17,7 +18,7 @@ export class HomePage {
 	public vidaRestante:string;
 	public golpe:boolean;
 	public itens:boolean;
-  private mostrarMochila:boolean;
+  public mostrarMochila:boolean;
 	public numRandomChanceDropar:number;
 	public mochila:Array<ItensDrop> = new Array<ItensDrop>();
 

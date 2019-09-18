@@ -8,7 +8,7 @@ export class Monstro {
 		public nome:string;
 		public vida:number;
     public imagem:string;
-    public lista:Array<ItensDrop> = new Array<ItensDrop>();
+    public drops:Array<ItensDrop> = new Array<ItensDrop>();
 
     constructor() {
         
