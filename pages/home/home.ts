@@ -10,8 +10,7 @@ import { AboutPage } from '../about/about'
 })
 export class HomePage {
   private dropAgora:string;
-  public golpeRandom:number;
-	public health:number;
+  public posicaoGolpe:number;
   public forca:number;
 	public vidaAtual:number;
 	public vidaRes:number;
@@ -19,8 +18,7 @@ export class HomePage {
 	public golpe:boolean;
 	public itens:boolean;
   private mostrarMochila:boolean;
-	public chanceDropar:number;
-	public porcentagemDrop:number;
+	public numRandomChanceDropar:number;
 	public mochila:Array<ItensDrop> = new Array<ItensDrop>();
 
 	private itensDrop: ItensDrop = new ItensDrop();
@@ -40,7 +38,7 @@ export class HomePage {
   }
 
 	public baterNoMonstro(): void{
-    this.golpeRandom = Math.floor(Math.random() * (4-1) + 1);
+    this.posicaoGolpe = Math.floor(Math.random() * (4-1) + 1);
 		this.golpe = true;
     if (this.vidaAtual <= 0 ){
       this.vidaAtual = 0;
@@ -48,13 +46,9 @@ export class HomePage {
     } else {
       this.vidaAtual -= this.forca;
  		};
- 		if (this.vidaAtual <= 0 ){
-      this.vidaAtual = 0;
-      this.dropDeItem();
-    }
     setTimeout(() => this.aparecerGolpe(), 200);
 		setTimeout(() => this.gerarDano(this.vidaAtual, this.vidaMax), 200);
-  	}
+  }
 
 public exibirMochila(): void{
   //this.mostrarMochila = !this.mostrarMochila;
@@ -78,14 +72,14 @@ public exibirMochila(): void{
 	}
 	
 	public numeroRandom(min, max): number {  
-	  return this.chanceDropar = Math.random() * (max - min) + min;
+	  return this.numRandomChanceDropar = Math.random() * (max - min) + min;
 	}
 
 	public dropDeItem(){
   this.dropAgora = "";
 		for (var i = 0; i < this.lista.length; i++) {
 			this.numeroRandom(0,100)
-			if (this.lista[i].chanceDrop >= this.chanceDropar){
+			if (this.lista[i].chanceDrop >= this.numRandomChanceDropar){
         if(!this.mochila.includes(this.lista[i])){
           this.lista[i].quantidade = 1;
           this.mochila.push(this.lista[i]);
