@@ -21,19 +21,20 @@ export class HomePage {
   public mostrarMochila:boolean;
 	public numRandomChanceDropar:number;
 	public mochila:Array<ItensDrop> = new Array<ItensDrop>();
+  public grupoMonstro:Array<Monstro> = new Array<Monstro>();
 
+  public monstro: Monstro = new Monstro();
 	private itensDrop: ItensDrop = new ItensDrop();
 
-	public vidaMax:number = 300;
-	public lista:Array<ItensDrop> = new Array<ItensDrop>();
+  public levelMonstro:number = 0;
 
 	constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
 
 	}
 
   ionViewDidLoad() {
-    this.adicionandoLista();
-		this.vidaAtual = this.vidaMax;
+    this.inicializarMonstro();
+		this.vidaAtual = this.monstro.vida;
 		this.vidaRestante = "100";
     this.forca = 100;
   }
@@ -47,13 +48,12 @@ export class HomePage {
     } else {
       this.vidaAtual -= this.forca;
  		};
+
     setTimeout(() => this.aparecerGolpe(), 200);
-		setTimeout(() => this.gerarDano(this.vidaAtual, this.vidaMax), 200);
+    setTimeout(() => this.gerarDano(this.vidaAtual, this.grupoMonstro[this.levelMonstro].vida), 200);
   }
 
 public exibirMochila(): void{
-  //this.mostrarMochila = !this.mostrarMochila;
-  
   this.navCtrl.push(AboutPage, {
   mochila: this.mochila
  });
@@ -68,7 +68,7 @@ public exibirMochila(): void{
 	}
 
 	public gerarDano(vidaAtual:number, vidaMax:number):void{
-		this.vidaRes = (this.vidaAtual*100)/this.vidaMax;
+		this.vidaRes = (this.vidaAtual*100)/this.grupoMonstro[this.levelMonstro].vida;
 		this.vidaRestante = this.vidaRes.toFixed(2);
 	}
 	
@@ -78,22 +78,22 @@ public exibirMochila(): void{
 
 	public dropDeItem(){
   this.dropAgora = "";
-		for (var i = 0; i < this.lista.length; i++) {
+  
+		for (var i = 0; i < this.grupoMonstro[this.levelMonstro].drops.length; i++) {
 			this.numeroRandom(0,100)
-			if (this.lista[i].chanceDrop >= this.numRandomChanceDropar){
-        if(!this.mochila.includes(this.lista[i])){
-          this.lista[i].quantidade = 1;
-          this.mochila.push(this.lista[i]);
-          this.dropAgora += this.lista[i].nome + ", ";
+			if (this.grupoMonstro[this.levelMonstro].drops[i].chanceDrop >= this.numRandomChanceDropar){
+        if(!this.mochila.includes(this.grupoMonstro[this.levelMonstro].drops[i])){
+          this.grupoMonstro[this.levelMonstro].drops[i].quantidade = 1;
+          this.mochila.push(this.grupoMonstro[this.levelMonstro].drops[i]);
+          this.dropAgora += this.grupoMonstro[this.levelMonstro].drops[i].nome + ", ";
         } else {
-          for (var x = 0; x < this.lista.length; x++) {
-            if(this.lista[i] === this.mochila[x]){
+          for (var x = 0; x < this.grupoMonstro[this.levelMonstro].drops.length; x++) {
+            if(this.grupoMonstro[this.levelMonstro].drops[i] === this.mochila[x]){
               this.mochila[x].quantidade = this.mochila[x].quantidade + 1
-              this.dropAgora += this.lista[i].nome + ", ";
+              this.dropAgora += this.grupoMonstro[this.levelMonstro].drops[i].nome + ", ";
             }
           }
-        }
-				
+        }				
 			}
 		}
 
@@ -106,26 +106,54 @@ public exibirMochila(): void{
 			alert.present();
 		}
 
-		setTimeout(() => this.vidaAtual = this.vidaMax, 500);
+    if(this.grupoMonstro.length-1 > this.levelMonstro){
+      this.levelMonstro = this.levelMonstro + 1; 
+    } else{
+      let alert = this.alertCtrl.create({
+			    title: 'VENCEDOR',
+				subTitle: "Matou todos os lobisomens!!!",
+				buttons: ['Uhuuuul']
+			});
+			alert.present();
+    }
+
+		setTimeout(() => this.vidaAtual = this.grupoMonstro[this.levelMonstro].vida, 500);
 		setTimeout(() => this.vidaRestante = "100", 500);
+    this.proximoMonstro();
 	}
 
-	public adicionandoLista(){
+  public proximoMonstro(){
+    this.monstro = this.grupoMonstro[this.levelMonstro];
+  }
+
+	public adicionandoLista(): Array<ItensDrop>{
+    var lista:Array<ItensDrop> = new Array<ItensDrop>();
     this.itensDrop = new ItensDrop;
 		this.itensDrop.id = 1;
 		this.itensDrop.nome = "Coroa de Faraó";
 		this.itensDrop.chanceDrop = 30;
     this.itensDrop.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/coroaFarao.png?raw=true";
-    this.lista.push(this.itensDrop);
+    lista.push(this.itensDrop);
     this.itensDrop = new ItensDrop;
 		this.itensDrop.id = 2;
 		this.itensDrop.nome = "Anel";
 		this.itensDrop.chanceDrop = 50;
     this.itensDrop.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/anel.png?raw=true";
-		this.lista.push(this.itensDrop);
+		lista.push(this.itensDrop);
+    return lista;
 	}
 
-public monstro:string = "https://github.com/Fijarug/Clicker/blob/master/src/images/lobo.png?raw=true";
+  public inicializarMonstro(){
+		for (var i = 0; i < 5; i++) {
+      this.monstro = new Monstro();
+      this.monstro.nome = "Lobisomen " + i;
+      this.monstro.vida = 300;
+      this.monstro.drops = this.adicionandoLista();
+      this.monstro.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/lobo.png?raw=true";
+      this.grupoMonstro.push(this.monstro);
+    }
+    this.monstro = this.grupoMonstro[0];
+  }
 
 public pow:string = "https://github.com/Fijarug/Clicker/blob/master/src/images/golpe.png?raw=true";
 }
