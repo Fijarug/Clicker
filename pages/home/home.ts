@@ -17,6 +17,7 @@ export class HomePage {
 	public vidaRes:number;
 	public vidaRestante:string;
 	public golpe:boolean;
+  public bloquearGolpe:boolean = false;
 	public itens:boolean;
   public mostrarMochila:boolean;
 	public numRandomChanceDropar:number;
@@ -40,24 +41,37 @@ export class HomePage {
   }
 
 	public baterNoMonstro(): void{
-    this.posicaoGolpe = Math.floor(Math.random() * (4-1) + 1);
-		this.golpe = true;
-    if (this.vidaAtual <= 0 ){
+    console.log(this.bloquearGolpe)
+
+    if (this.vidaAtual <= 0){
+      this.bloquearGolpe = true;
+      this.posicaoGolpe = Math.floor(Math.random() * (4-1) + 1);
+      this.golpe = true;  
       this.vidaAtual = 0;
       this.dropDeItem();
-    } else {
+      this.proximoMonstro();
+    } else if(!this.bloquearGolpe){
       this.vidaAtual -= this.forca;
+      if (this.vidaAtual <= 0){
+        this.bloquearGolpe = true;
+        this.vidaAtual = 0;
+        this.dropDeItem();
+        this.proximoMonstro();
+
+      }
  		};
 
-    setTimeout(() => this.aparecerGolpe(), 200);
-    setTimeout(() => this.gerarDano(this.vidaAtual, this.grupoMonstro[this.levelMonstro].vida), 200);
+
+    setTimeout(() => this.bloquearGolpe = false, 1000);
+
+    setTimeout(() => this.aparecerGolpe(), 2500);
+    setTimeout(() => this.gerarDano(this.vidaAtual, this.grupoMonstro[this.levelMonstro].vida), 300);
+    console.log(this.bloquearGolpe)
   }
 
-public exibirMochila(): void{
-  this.navCtrl.push(AboutPage, {
-  mochila: this.mochila
- });
-}
+  public exibirMochila(): void{
+    this.navCtrl.push(AboutPage, {mochila: this.mochila});
+  }
 
   public botao(): void{
 		this.itens = !this.itens;
@@ -68,8 +82,8 @@ public exibirMochila(): void{
 	}
 
 	public gerarDano(vidaAtual:number, vidaMax:number):void{
-		this.vidaRes = (this.vidaAtual*100)/this.grupoMonstro[this.levelMonstro].vida;
-		this.vidaRestante = this.vidaRes.toFixed(2);
+    this.vidaRes = (this.vidaAtual*100)/this.grupoMonstro[this.levelMonstro].vida;
+    this.vidaRestante = this.vidaRes < 0 ? "0" : this.vidaRes.toFixed(2);
 	}
 	
 	public numeroRandom(min, max): number {  
@@ -77,8 +91,7 @@ public exibirMochila(): void{
 	}
 
 	public dropDeItem(){
-  this.dropAgora = "";
-  
+    this.dropAgora = "";
 		for (var i = 0; i < this.grupoMonstro[this.levelMonstro].drops.length; i++) {
 			this.numeroRandom(0,100)
 			if (this.grupoMonstro[this.levelMonstro].drops[i].chanceDrop >= this.numRandomChanceDropar){
@@ -119,7 +132,6 @@ public exibirMochila(): void{
 
 		setTimeout(() => this.vidaAtual = this.grupoMonstro[this.levelMonstro].vida, 500);
 		setTimeout(() => this.vidaRestante = "100", 500);
-    this.proximoMonstro();
 	}
 
   public proximoMonstro(){
@@ -146,7 +158,34 @@ public exibirMochila(): void{
   public inicializarMonstro(){
 		for (var i = 0; i < 5; i++) {
       this.monstro = new Monstro();
-      this.monstro.nome = "Lobisomen " + i;
+      this.monstro.nome = "Filhote de Lobo " + (i+1);
+      this.monstro.vida = 50;
+      this.monstro.drops = this.adicionandoLista();
+      this.monstro.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/filhoteLobo.gif?raw=true";
+      this.grupoMonstro.push(this.monstro);
+    }
+
+    for (var i = 0; i < 5; i++) {
+      this.monstro = new Monstro();
+      this.monstro.nome = "Lobo Cinzento " + (i+1);
+      this.monstro.vida = 100;
+      this.monstro.drops = this.adicionandoLista();
+      this.monstro.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/loboCinza.gif?raw=true";
+      this.grupoMonstro.push(this.monstro);
+    }
+
+    for (var i = 0; i < 5; i++) {
+      this.monstro = new Monstro();
+      this.monstro.nome = "Lobo do Deserto " + (i+1);
+      this.monstro.vida = 150;
+      this.monstro.drops = this.adicionandoLista();
+      this.monstro.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/loboDeserto.gif?raw=true";
+      this.grupoMonstro.push(this.monstro);
+    }
+
+    for (var i = 0; i < 5; i++) {
+      this.monstro = new Monstro();
+      this.monstro.nome = "Lobisomen " + (i+1);
       this.monstro.vida = 300;
       this.monstro.drops = this.adicionandoLista();
       this.monstro.imagem = "https://github.com/Fijarug/Clicker/blob/master/src/images/lobo.png?raw=true";
