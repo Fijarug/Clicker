@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { ItensDrop } from '../entidade/ItensDrop';
 import { Monstro } from '../entidade/Monstro';
 import { AlertController } from 'ionic-angular';
@@ -10,6 +10,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
+  styleUrls: ['home.scss'],
   animations: [
     trigger('myvisibility', [
       state('visible', style({
@@ -44,8 +45,18 @@ export class MonstroPage {
 
   public levelMonstro:number = 0;
 
-	constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
+	constructor(public navCtrl: NavController, private alertCtrl: AlertController, public toastController: ToastController) {
 	}
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      position: 'middle',
+      cssClass: "toast",
+      duration: 1000
+    });
+    toast.present();
+  }
 
   esconderAparecerAnimacao() {
     this.visibleState = (this.visibleState == 'visible') ? 'invisible' : 'visible';
@@ -136,12 +147,13 @@ export class MonstroPage {
 		}
 
 		if (this.dropAgora) {
-			let alert = this.alertCtrl.create({
-			    title: 'Drop',
-				subTitle: "Dropou " + this.dropAgora.substr(0, this.dropAgora.length-2),
-				buttons: ['Okay']
-			});
-			alert.present();
+      this.presentToast("Dropou: " + this.dropAgora.substr(0, this.dropAgora.length-2));
+			// let alert = this.alertCtrl.create({
+			//     title: 'Drop',
+			// 	subTitle: "Dropou " + this.dropAgora.substr(0, this.dropAgora.length-2),
+			// 	buttons: ['Okay']
+			// });
+			// alert.present();
 		}
 
     if(this.grupoMonstro.length-1 > this.levelMonstro){
