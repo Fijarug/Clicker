@@ -5,13 +5,28 @@ import { Monstro } from '../entidade/Monstro';
 import { AlertController } from 'ionic-angular';
 import { AboutPage } from '../about/about'
 
+import { trigger, state, style, transition, animate } from '@angular/animations'
+
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  animations: [
+    trigger('myvisibility', [
+      state('visible', style({
+        opacity: 1
+      })),
+      state('invisible', style({
+        opacity: 0
+      })),
+      transition('* => *', animate('.5s'))
+    ])
+  ]
 })
 export class HomePage {
+  visibleState = 'visible';
+
   private dropAgora:string;
-  public posicaoGolpe:number;
+  public posicionarGolpe:number;
   public forca:number;
 	public vidaAtual:number;
 	public vidaRes:number;
@@ -30,8 +45,11 @@ export class HomePage {
   public levelMonstro:number = 0;
 
 	constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
-
 	}
+
+  esconderAparecerAnimacao() {
+    this.visibleState = (this.visibleState == 'visible') ? 'invisible' : 'visible';
+  }
 
   ionViewDidLoad() {
     this.inicializarMonstro();
@@ -41,29 +59,28 @@ export class HomePage {
   }
 
 	public baterNoMonstro(): void{
-    console.log(this.bloquearGolpe)
-
     if (this.vidaAtual <= 0){
       this.bloquearGolpe = true;
-      this.posicaoGolpe = Math.floor(Math.random() * (4-1) + 1);
+      this.posicionarGolpe = Math.floor(Math.random() * (4-1) + 1);
       this.golpe = true;  
       this.vidaAtual = 0;
-      this.dropDeItem();
-      this.proximoMonstro();
+      this.esconderAparecerAnimacao();
+      setTimeout(() => this.droparItem(), 500);
+      this.buscarProximoMonstro();
+      setTimeout(() => this.esconderAparecerAnimacao(), 700);
     } else if(!this.bloquearGolpe){
       this.vidaAtual -= this.forca;
       if (this.vidaAtual <= 0){
         this.bloquearGolpe = true;
         this.vidaAtual = 0;
-        this.dropDeItem();
-        this.proximoMonstro();
-
+        this.esconderAparecerAnimacao();
+        setTimeout(() => this.droparItem(), 500);
+        this.buscarProximoMonstro();
+        setTimeout(() => this.esconderAparecerAnimacao(), 700);
       }
  		};
 
-
     setTimeout(() => this.bloquearGolpe = false, 1000);
-
     setTimeout(() => this.aparecerGolpe(), 2500);
     setTimeout(() => this.gerarDano(this.vidaAtual, this.grupoMonstro[this.levelMonstro].vida), 300);
     console.log(this.bloquearGolpe)
@@ -90,7 +107,7 @@ export class HomePage {
 	  return this.numRandomChanceDropar = Math.random() * (max - min) + min;
 	}
 
-	public dropDeItem(){
+	public droparItem(){
     this.dropAgora = "";
 		for (var i = 0; i < this.grupoMonstro[this.levelMonstro].drops.length; i++) {
 			this.numeroRandom(0,100)
@@ -134,7 +151,7 @@ export class HomePage {
 		setTimeout(() => this.vidaRestante = "100", 500);
 	}
 
-  public proximoMonstro(){
+  public buscarProximoMonstro(){
     this.monstro = this.grupoMonstro[this.levelMonstro];
   }
 

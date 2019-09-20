@@ -58,7 +58,7 @@
         <div style="margin-top: -7%;" id="barraDeVidaRestante">{{ vidaRestante }} %</div>
 
         <div (click)="baterNoMonstro()" style="padding-top: 3%; height: 200px; position: relative;">
-          <div class="posicaoMonstro">
+          <div class="posicaoMonstro" [@myvisibility]="visibleState">
             <img src="{{ monstro.imagem }}" />
           </div>
         </div>
