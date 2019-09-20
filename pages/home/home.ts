@@ -106,22 +106,31 @@ export class MonstroPage {
 	  return this.numRandomChanceDropar = Math.random() * (max - min) + min;
 	}
 
+  public validarItemMochila(lista, obj):boolean{
+    for(var i = 0; i < lista.length; i++) {
+      if (lista[i].id == obj.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 	public droparItem(){
     this.dropAgora = "";
 		for (var i = 0; i < this.grupoMonstro[this.levelMonstro].drops.length; i++) {
 			this.numeroRandom(0,100)
 			if (this.grupoMonstro[this.levelMonstro].drops[i].chanceDrop >= this.numRandomChanceDropar){
-        if(!this.mochila.includes(this.grupoMonstro[this.levelMonstro].drops[i])){
-          this.grupoMonstro[this.levelMonstro].drops[i].quantidade = 1;
-          this.mochila.push(this.grupoMonstro[this.levelMonstro].drops[i]);
-          this.dropAgora += this.grupoMonstro[this.levelMonstro].drops[i].nome + ", ";
-        } else {
+        if(this.validarItemMochila(this.mochila,this.grupoMonstro[this.levelMonstro].drops[i])){
           for (var x = 0; x < this.grupoMonstro[this.levelMonstro].drops.length; x++) {
-            if(this.grupoMonstro[this.levelMonstro].drops[i] === this.mochila[x]){
+            if(this.grupoMonstro[this.levelMonstro].drops[i].id === this.mochila[x].id){
               this.mochila[x].quantidade = this.mochila[x].quantidade + 1
               this.dropAgora += this.grupoMonstro[this.levelMonstro].drops[i].nome + ", ";
             }
           }
+        } else {
+          this.grupoMonstro[this.levelMonstro].drops[i].quantidade = 1;
+          this.mochila.push(this.grupoMonstro[this.levelMonstro].drops[i]);
+          this.dropAgora += this.grupoMonstro[this.levelMonstro].drops[i].nome + ", ";
         }				
 			}
 		}
