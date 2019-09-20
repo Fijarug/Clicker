@@ -59,7 +59,7 @@ export class MonstroPage {
   }
 
 	public baterNoMonstro(): void{
-    if (this.vidaAtual <= 0){
+    if (!this.bloquearGolpe && this.vidaAtual <= 0){
       this.bloquearGolpe = true;
       this.posicionarGolpe = Math.floor(Math.random() * (4-1) + 1);
       this.golpe = true;  
@@ -83,7 +83,6 @@ export class MonstroPage {
     setTimeout(() => this.bloquearGolpe = false, 1000);
     setTimeout(() => this.aparecerGolpe(), 2500);
     setTimeout(() => this.gerarDano(this.vidaAtual, this.grupoMonstro[this.levelMonstro].vida), 300);
-    console.log(this.bloquearGolpe)
   }
 
   public exibirMochila(): void{
