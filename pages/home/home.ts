@@ -22,7 +22,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ])
   ]
 })
-export class HomePage {
+export class MonstroPage {
   visibleState = 'visible';
 
   private dropAgora:string;

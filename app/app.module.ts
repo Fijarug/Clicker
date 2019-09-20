@@ -5,8 +5,7 @@ import { MyApp } from './app.component';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
+import { MonstroPage } from '../pages/home/home';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -15,8 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
-    TabsPage
+    MonstroPage
   ],
   imports: [
     BrowserModule,
@@ -28,8 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
-    TabsPage
+    MonstroPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler}
